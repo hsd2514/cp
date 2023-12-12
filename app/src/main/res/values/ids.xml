@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="button_reset" type="id" />
+    <item name="button_start_pause" type="id" />
+    <item name="button_stop_sound" type="id" />
+    <item name="text_view_countdown" type="id" />
+</resources>

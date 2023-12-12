@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>TimerSetUpActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #fb7385;}
+.s1 { color: #abb2bf;}
+.s2 { color: #505069;}
+.s3 { color: #ce95b8;}
+.s4 { color: #e5bc66;}
+</style>
+</head>
+<body bgcolor="#20202a">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TimerSetUpActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.cp</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android.util.Log</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">TimerSetUpActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s2">;</span>
+        <span class="s1">setContentView(R.layout.activity_timer_set_up)</span><span class="s2">;</span>
+
+
+        <span class="s1">Button mButtonSet10Sec = findViewById(R.id.button_set_10_sec)</span><span class="s2">;</span>
+        <span class="s1">mButtonSet10Sec.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(TimerSetUpActivity.</span><span class="s0">this</span><span class="s1">, MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s2">;</span>
+                <span class="s0">long </span><span class="s1">timerValue = </span><span class="s3">10000</span><span class="s2">;</span>
+                <span class="s1">intent.putExtra(</span><span class="s4">&quot;TIMER_VALUE&quot;</span><span class="s1">, timerValue)</span><span class="s2">;</span>
+
+                <span class="s1">startActivity(intent)</span><span class="s2">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s2">;</span>
+<span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

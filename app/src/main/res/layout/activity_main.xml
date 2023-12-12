@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cp.MainActivity">
+
+    <TextView
+        android:id="@+id/text_view_countdown"
+        style="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="00:00"
+        android:textColor="@android:color/black"
+        android:textSize="60sp" />
+
+    <Button
+        android:id="@+id/button_start_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_countdown"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Start" />
+
+    <Button
+        android:id="@+id/button_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_start_pause"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Reset" />
+
+    <Button
+        android:id="@+id/button_stop_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_reset"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Stop Sound"
+        android:visibility="invisible" />
+    <Button
+        android:id="@+id/button_navigate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_stop_sound"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Navigate" />
+
+</RelativeLayout>
