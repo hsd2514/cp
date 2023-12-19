@@ -3,21 +3,24 @@ package com.example.cp;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private static  long START_TIME_IN_MILLIS = 6000;
     private static final String CHANNEL_ID = "timer_channel";
 
     private TextView mTextViewCountDown;
@@ -29,25 +32,32 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mTimerRunning;
 
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private long mTimeLeftInMillis;
     private long mEndTime;
     private MediaPlayer mediaPlayer;
 
     private Button mButtonNavigate;
+    private ProgressBar mProgressBar;
+    private long mInitialTimeInMillis;
+    private Vibrator vibrator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Intent intent = getIntent();
-        mTimeLeftInMillis = intent.getLongExtra("TIMER_VALUE", START_TIME_IN_MILLIS);
+        mTimeLeftInMillis = intent.getLongExtra("TIMER_VALUE", 0);
         mTextViewCountDown = findViewById(R.id.text_view_countdown);
         mButtonStartPause = findViewById(R.id.button_start_pause);
         mButtonReset = findViewById(R.id.button_reset);
         mButtonStopSound = findViewById(R.id.button_stop_sound);
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm_sound);
         Button mButtonNavigate = findViewById(R.id.button_navigate);
+        mInitialTimeInMillis = mTimeLeftInMillis;
+        mProgressBar = findViewById(R.id.progress_bar);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
 
         mButtonNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer.prepareAsync(); // prepare for next start
                     mButtonStopSound.setVisibility(View.INVISIBLE);
                 }
+                if (vibrator != null) {
+                    vibrator.cancel();
+                }
             }
         });
 
@@ -99,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
+                updateProgressBar();
             }
 
             @Override
@@ -108,6 +122,35 @@ public class MainActivity extends AppCompatActivity {
                 mediaPlayer.setLooping(true);
                 mediaPlayer.start();
                 mButtonStopSound.setVisibility(View.VISIBLE); // Make the "Stop Sound" button visible
+                // Get the system service for the vibrator
+
+// Check if the device has a vibrator
+                if (vibrator != null && vibrator.hasVibrator()) {
+                    // Create a long array for your pattern. The values are the number of milliseconds to wait.
+                   long[] pattern = {0, 100, 1000, 300, 200, 100, 500, 200, 100};
+//                    0: Start immediately
+//                    100: Vibrate for 100 milliseconds
+//                    1000: Wait for 1000 milliseconds
+//                    300: Vibrate for 300 milliseconds
+//                    200: Wait for 200 milliseconds
+//                    100: Vibrate for 100 milliseconds
+//                    500: Wait for 500 milliseconds
+//                    200: Vibrate for 200 milliseconds
+//                    100: Wait for 100 milliseconds
+                    // Create a VibrationEffect object with the pattern and repeat index
+                    // The repeat index is the index into the pattern to repeat, or -1 if you don't want to repeat.
+                    VibrationEffect vibrationEffect = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        vibrationEffect = VibrationEffect.createWaveform(pattern, -1);
+                        vibrator.vibrate(vibrationEffect);
+                        }
+
+                    // Vibrate with the created effect
+
+                }
+
+
+
                 showNotification();
             }
         }.start();
@@ -115,7 +158,10 @@ public class MainActivity extends AppCompatActivity {
         mTimerRunning = true;
         updateButtons();
     }
-
+    private void updateProgressBar() {
+        int progress = (int) (100 * (mInitialTimeInMillis - mTimeLeftInMillis) / mInitialTimeInMillis);
+        mProgressBar.setProgress(progress);
+    }
     private void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
@@ -123,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+        mTimeLeftInMillis = 0;
         updateCountDownText();
         updateButtons();
     }
@@ -141,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         if (mTimerRunning) {
             mButtonReset.setVisibility(View.INVISIBLE);
             mButtonStartPause.setText("Pause");
+            ;
         } else {
             mButtonStartPause.setText("Start");
 
@@ -150,18 +197,20 @@ public class MainActivity extends AppCompatActivity {
                 mButtonStartPause.setVisibility(View.VISIBLE);
             }
 
-            if (mTimeLeftInMillis < START_TIME_IN_MILLIS) {
+            if (mTimeLeftInMillis < 0) {
                 mButtonReset.setVisibility(View.VISIBLE);
             } else {
                 mButtonReset.setVisibility(View.INVISIBLE);
             }
+            mButtonReset.setVisibility(View.VISIBLE);
+
         }
     }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Timer Channel";
-            String description = "Channel for timer notifications";
+            String description = "Time To Take A Break";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
@@ -182,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.like)
+                .setSmallIcon(R.drawable.rest_noti)
                 .setContentTitle("Timer Finished")
                 .setContentText("Your timer has finished.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -191,7 +240,5 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.notify(0, builder.build());
-
-
     }
 }

@@ -24,7 +24,9 @@
         android:layout_below="@+id/text_view_countdown"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Start" />
+        android:text="Start"
+        app:icon="@drawable/start"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
     <Button
         android:id="@+id/button_reset"
@@ -33,7 +35,9 @@
         android:layout_below="@+id/button_start_pause"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Reset" />
+        android:text="Reset"
+        app:icon="@drawable/refresh_fill0_wght400_grad0_opsz24"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
     <Button
         android:id="@+id/button_stop_sound"
@@ -43,7 +47,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Stop Sound"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:icon="@drawable/stop"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
     <Button
         android:id="@+id/button_navigate"
         android:layout_width="wrap_content"
@@ -51,6 +58,18 @@
         android:layout_below="@+id/button_stop_sound"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Navigate" />
+        app:icon="@drawable/settings"
+        android:text="Change Timer"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/custom_progress_bar" />
 
 </RelativeLayout>

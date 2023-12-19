@@ -8,6 +8,7 @@
 .s2 { color: #505069;}
 .s3 { color: #ce95b8;}
 .s4 { color: #e5bc66;}
+.s5 { color: #5c6370; font-style: italic;}
 </style>
 </head>
 <body bgcolor="#20202a">
@@ -22,9 +23,10 @@ TimerSetUpActivity.java</font>
 
 <span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s2">;</span>
-<span class="s0">import </span><span class="s1">android.util.Log</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">android.view.View</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Switch</span><span class="s2">;</span>
 
 <span class="s0">public class </span><span class="s1">TimerSetUpActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
 
@@ -33,19 +35,46 @@ TimerSetUpActivity.java</font>
         <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s2">;</span>
         <span class="s1">setContentView(R.layout.activity_timer_set_up)</span><span class="s2">;</span>
 
+        <span class="s0">final </span><span class="s1">EditText editTextTimer = findViewById(R.id.edit_text_timer)</span><span class="s2">;</span>
+        <span class="s1">Button mButtonSetTimer = findViewById(R.id.button_set_timer)</span><span class="s2">;</span>
+        <span class="s1">Button mButtonWaterBreak = findViewById(R.id.button_water_break)</span><span class="s2">;</span>
+        <span class="s1">Button mButtonTakeWalk = findViewById(R.id.button_take_walk)</span><span class="s2">;</span>
 
-        <span class="s1">Button mButtonSet10Sec = findViewById(R.id.button_set_10_sec)</span><span class="s2">;</span>
-        <span class="s1">mButtonSet10Sec.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+        <span class="s1">mButtonSetTimer.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
             <span class="s1">@Override</span>
             <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
-                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(TimerSetUpActivity.</span><span class="s0">this</span><span class="s1">, MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s2">;</span>
-                <span class="s0">long </span><span class="s1">timerValue = </span><span class="s3">10000</span><span class="s2">;</span>
-                <span class="s1">intent.putExtra(</span><span class="s4">&quot;TIMER_VALUE&quot;</span><span class="s1">, timerValue)</span><span class="s2">;</span>
+                <span class="s1">String timerText = editTextTimer.getText().toString()</span><span class="s2">;</span>
+                <span class="s0">int </span><span class="s1">minutes = Integer.parseInt(timerText)</span><span class="s2">;</span>
+                <span class="s0">long </span><span class="s1">timerValue = minutes * </span><span class="s3">60 </span><span class="s1">* </span><span class="s3">1000</span><span class="s2">;</span>
 
+                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(TimerSetUpActivity.</span><span class="s0">this</span><span class="s1">, MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s2">;</span>
+                <span class="s1">intent.putExtra(</span><span class="s4">&quot;TIMER_VALUE&quot;</span><span class="s1">, timerValue)</span><span class="s2">;</span>
                 <span class="s1">startActivity(intent)</span><span class="s2">;</span>
             <span class="s1">}</span>
         <span class="s1">})</span><span class="s2">;</span>
-<span class="s1">}</span>
+
+        <span class="s1">mButtonWaterBreak.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s0">long </span><span class="s1">timerValue = </span><span class="s3">20 </span><span class="s1">* </span><span class="s3">60 </span><span class="s1">* </span><span class="s3">1000</span><span class="s2">; </span><span class="s5">// 20 minutes</span>
+
+                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(TimerSetUpActivity.</span><span class="s0">this</span><span class="s1">, MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s2">;</span>
+                <span class="s1">intent.putExtra(</span><span class="s4">&quot;TIMER_VALUE&quot;</span><span class="s1">, timerValue)</span><span class="s2">;</span>
+                <span class="s1">startActivity(intent)</span><span class="s2">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s2">;</span>
+
+        <span class="s1">mButtonTakeWalk.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s0">long </span><span class="s1">timerValue = </span><span class="s3">30 </span><span class="s1">* </span><span class="s3">60 </span><span class="s1">* </span><span class="s3">1000</span><span class="s2">; </span><span class="s5">// 30 minutes</span>
+
+                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(TimerSetUpActivity.</span><span class="s0">this</span><span class="s1">, MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s2">;</span>
+                <span class="s1">intent.putExtra(</span><span class="s4">&quot;TIMER_VALUE&quot;</span><span class="s1">, timerValue)</span><span class="s2">;</span>
+                <span class="s1">startActivity(intent)</span><span class="s2">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s2">;</span>
+    <span class="s1">}</span>
 <span class="s1">}</span></pre>
 </body>
 </html>
